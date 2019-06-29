@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Http\Resources\Question as QuestionResource;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class QuestionController extends Controller
 {
@@ -14,7 +16,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        //
+        return QuestionResource::collection(Question::latest()->get());
     }
 
     /**
@@ -22,10 +24,10 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+//    public function create()
+//    {
+//        //
+//    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +37,15 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            // $question = auth()->user()->questions()->create($request->all());
+            $question = Question::create($request->all());
+            return response()->json($question, Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Something went wrong!'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -46,7 +56,7 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        //
+        return new QuestionResource($question);
     }
 
     /**
@@ -55,10 +65,10 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function edit(Question $question)
-    {
-        //
-    }
+//    public function edit(Question $question)
+//    {
+//        //
+//    }
 
     /**
      * Update the specified resource in storage.
@@ -69,7 +79,14 @@ class QuestionController extends Controller
      */
     public function update(Request $request, Question $question)
     {
-        //
+        try {
+            $question->update($request->all());
+            return response()->json(new QuestionResource($question), Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Something went wrong!'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -80,6 +97,10 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-        //
+        $question->delete();
+
+        return response()->json([
+            'message' => 'The question was deleted successfully!'
+        ], Response::HTTP_OK);
     }
 }
