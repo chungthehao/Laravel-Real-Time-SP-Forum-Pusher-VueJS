@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Http\Resources\Category as CategoryResource;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,18 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return response()->json(Category::latest()->get(), 200);
+        return response()->json(CategoryResource::collection(Category::latest()->get()), 200);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-//    public function create()
-//    {
-//        //
-//    }
 
     /**
      * Store a newly created resource in storage.
@@ -41,7 +32,7 @@ class CategoryController extends Controller
             $category->name = $request->name;
             $category->slug = str_slug($request->name);
             $category->save();
-            return response()->json($category, Response::HTTP_CREATED);
+            return response()->json(new CategoryResource($category), Response::HTTP_CREATED);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Something went wrong!'
@@ -57,19 +48,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return response()->json($category, Response::HTTP_OK);
+        return response()->json(new CategoryResource($category), Response::HTTP_OK);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-//    public function edit(Category $category)
-//    {
-//        //
-//    }
 
     /**
      * Update the specified resource in storage.
