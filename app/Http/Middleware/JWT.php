@@ -16,7 +16,10 @@ class JWT
      */
     public function handle($request, Closure $next)
     {
+        // - Có vấn đề gì thì nó sẽ throw errors, mình đã rào trước cái trường hợp của nó
+        // trong file Handler.php
         JWTAuth::parseToken()->authenticate();
+
         return $next($request);
     }
 }
