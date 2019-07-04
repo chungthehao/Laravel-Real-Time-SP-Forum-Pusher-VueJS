@@ -15,6 +15,7 @@ Vue.use(Vuetify);
 
 import User from './helpers/User';
 window.User = User;
+window.EventBus = new Vue(); // Tạo 1 vue instance chỉ để phục vụ cho việc EventBus
 console.log(User.id());
 
 /**

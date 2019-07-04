@@ -13,6 +13,7 @@ class User {
         const user = res.data.user;
         if (Token.isValid(access_token)) {
             AppStorage.store(user, access_token);
+            window.location.assign('/forum');
         }
     }
 
@@ -30,6 +31,7 @@ class User {
 
     logout() {
         AppStorage.clear();
+        window.location.assign('/forum');
     }
 
     name() {
