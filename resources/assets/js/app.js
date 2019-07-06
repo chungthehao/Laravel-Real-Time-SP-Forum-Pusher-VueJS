@@ -8,14 +8,20 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import VueSimplemde from 'vue-simplemde'
+import md from 'marked'; // Kèm theo khi install 'vue-simplemde'
+import 'simplemde/dist/simplemde.min.css'
 
 Vue.use(Vuetify);
+Vue.use(VueSimplemde);
 
 import User from './helpers/User';
 window.User = User;
 window.EventBus = new Vue(); // Tạo 1 vue instance chỉ để phục vụ cho việc EventBus
+window.md = md;
 console.log(User.id());
 
 /**

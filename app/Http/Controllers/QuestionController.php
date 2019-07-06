@@ -43,9 +43,12 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         try {
-            // $question = auth()->user()->questions()->create($request->all());
-            $question = Question::create($request->all());
-            return response()->json($question, Response::HTTP_CREATED);
+            // $request['slug'] = str_slug($request->title);
+            // Thay vì thêm slug thủ công như trên thì vô Question model dùng boot()
+
+            //$question = Question::create($request->all());
+            $question = auth()->user()->questions()->create($request->all());
+            return response()->json(new QuestionResource($question), Response::HTTP_CREATED);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Something went wrong!'

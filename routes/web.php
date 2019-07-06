@@ -15,5 +15,6 @@
 //    return view('home');
 //});
 
-Route::view('/', 'home');
+Route::view('/', 'home'); // Route::view trả về view (in this case: home.blade.php)
 Route::view('/{any}', 'home');
+Route::view('/{any}/{any1}', 'home');
