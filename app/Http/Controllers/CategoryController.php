@@ -40,7 +40,7 @@ class CategoryController extends Controller
             return response()->json(new CategoryResource($category), Response::HTTP_CREATED);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Something went wrong!'
+                'message' => $e->getMessage()
             ], 500);
         }
     }
@@ -69,7 +69,7 @@ class CategoryController extends Controller
             $category->name = $request->name;
             $category->slug = str_slug($request->name);
             $category->save();
-            return response()->json($category, Response::HTTP_OK);
+            return response()->json(new CategoryResource($category), Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Something went wrong!'
