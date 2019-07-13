@@ -20,6 +20,8 @@ class Reply extends JsonResource
             'body' => $this->body,
             'user' => $this->user->name,
             'user_id' => $this->user_id,
+            'like_count' => $this->likes->count(),
+            'liked_already' => $this->likes()->where('user_id', auth()->id())->count() === 1,
             'created_at' => $this->created_at->diffForHumans()
         ];
     }

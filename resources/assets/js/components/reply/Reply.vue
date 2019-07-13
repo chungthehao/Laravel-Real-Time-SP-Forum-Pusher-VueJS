@@ -4,6 +4,10 @@
             <v-card-title>
                 <div class="headline">{{reply.user}}</div>
                 <div class="ml-3 grey--text">{{reply.created_at}}</div>
+
+                <v-spacer></v-spacer>
+
+                <like :reply="reply"></like>
             </v-card-title>
 
             <edit-reply v-if="editing"
@@ -26,8 +30,9 @@
 
 <script>
     import EditReply from './EditReply';
+    import Like from '../like/Like';
     export default {
-        components: {EditReply},
+        components: {EditReply, Like},
         props: ['reply', 'questionSlug'],
         data() {
             return {
