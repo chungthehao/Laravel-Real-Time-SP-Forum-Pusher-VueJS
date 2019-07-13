@@ -7,17 +7,25 @@
         <show-question
                 v-else
                 :question="question"></show-question>
+
+        <v-container>
+            <replies
+                :replies="question.replies"
+                :questionSlug="question.slug"></replies>
+
+            <new-reply
+                :question="question"></new-reply>
+        </v-container>
     </div>
 </template>
 
 <script>
 import ShowQuestion from './ShowQuestion';
 import EditQuestion from './EditQuestion';
+import Replies from '../reply/Replies';
+import NewReply from '../reply/NewReply';
 export default {
-    components: {
-        ShowQuestion,
-        EditQuestion
-    },
+    components: {ShowQuestion, EditQuestion, Replies, NewReply},
     data() {
         return {
             question: null,
@@ -28,6 +36,8 @@ export default {
         // Listening events
         this.editQuestion(); // Đký để chực chờ làm khi có event 'editingQuestion' fire
         this.cancelEditQuestion();
+        this.onAddNewReply();
+        this.onDeleteReply();
 
         this.getQuestion();
     },
@@ -45,6 +55,17 @@ export default {
         cancelEditQuestion() {
             EventBus.$on('cancelEditQuestion', () => {
                 this.editing = false;
+            });
+        },
+        onAddNewReply() {
+            EventBus.$on('addNewReply', (newReply) => {
+                this.question.replies.unshift(newReply);
+            });
+        },
+        onDeleteReply() {
+            EventBus.$on('deleteReply', (replyId) => {
+                this.question.replies = this.question.replies.filter(reply => reply.id !== replyId);
+                this.question.reply_count--;
             });
         }
     }

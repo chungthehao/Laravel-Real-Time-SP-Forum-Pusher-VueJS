@@ -91010,7 +91010,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -91025,6 +91025,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowQuestion___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShowQuestion__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditQuestion__ = __webpack_require__(128);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EditQuestion___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EditQuestion__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__reply_Replies__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__reply_Replies___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__reply_Replies__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__reply_NewReply__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__reply_NewReply___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__reply_NewReply__);
 //
 //
 //
@@ -91037,14 +91041,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        ShowQuestion: __WEBPACK_IMPORTED_MODULE_0__ShowQuestion___default.a,
-        EditQuestion: __WEBPACK_IMPORTED_MODULE_1__EditQuestion___default.a
-    },
+    components: { ShowQuestion: __WEBPACK_IMPORTED_MODULE_0__ShowQuestion___default.a, EditQuestion: __WEBPACK_IMPORTED_MODULE_1__EditQuestion___default.a, Replies: __WEBPACK_IMPORTED_MODULE_2__reply_Replies___default.a, NewReply: __WEBPACK_IMPORTED_MODULE_3__reply_NewReply___default.a },
     data: function data() {
         return {
             question: null,
@@ -91055,6 +91067,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         // Listening events
         this.editQuestion(); // Đký để chực chờ làm khi có event 'editingQuestion' fire
         this.cancelEditQuestion();
+        this.onAddNewReply();
+        this.onDeleteReply();
 
         this.getQuestion();
     },
@@ -91081,6 +91095,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             EventBus.$on('cancelEditQuestion', function () {
                 _this3.editing = false;
+            });
+        },
+        onAddNewReply: function onAddNewReply() {
+            var _this4 = this;
+
+            EventBus.$on('addNewReply', function (newReply) {
+                _this4.question.replies.unshift(newReply);
+            });
+        },
+        onDeleteReply: function onDeleteReply() {
+            var _this5 = this;
+
+            EventBus.$on('deleteReply', function (replyId) {
+                _this5.question.replies = _this5.question.replies.filter(function (reply) {
+                    return reply.id !== replyId;
+                });
+                _this5.question.reply_count--;
             });
         }
     }
@@ -91280,7 +91311,9 @@ var render = function() {
               _vm._v(" "),
               _c("v-spacer"),
               _vm._v(" "),
-              _c("v-btn", { attrs: { color: "teal" } }, [_vm._v("5 replies")])
+              _c("v-btn", { attrs: { color: "teal", dark: "" } }, [
+                _vm._v(_vm._s(_vm.question.reply_count) + " replies")
+              ])
             ],
             1
           ),
@@ -91593,7 +91626,22 @@ var render = function() {
         [
           _vm.editing
             ? _c("edit-question", { attrs: { question: _vm.question } })
-            : _c("show-question", { attrs: { question: _vm.question } })
+            : _c("show-question", { attrs: { question: _vm.question } }),
+          _vm._v(" "),
+          _c(
+            "v-container",
+            [
+              _c("replies", {
+                attrs: {
+                  replies: _vm.question.replies,
+                  questionSlug: _vm.question.slug
+                }
+              }),
+              _vm._v(" "),
+              _c("new-reply", { attrs: { question: _vm.question } })
+            ],
+            1
+          )
         ],
         1
       )
@@ -92216,6 +92264,796 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(149)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(151)
+/* template */
+var __vue_template__ = __webpack_require__(152)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/reply/Replies.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-bd63e688", Component.options)
+  } else {
+    hotAPI.reload("data-v-bd63e688", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(150);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(1)("9b0606a4", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-bd63e688\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Replies.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-bd63e688\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Replies.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 151 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Reply__ = __webpack_require__(153);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Reply___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Reply__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: { Reply: __WEBPACK_IMPORTED_MODULE_0__Reply___default.a },
+    props: ['replies', 'questionSlug']
+
+});
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.replies, function(reply, index) {
+      return _c("reply", {
+        key: index,
+        attrs: { reply: reply, questionSlug: _vm.questionSlug }
+      })
+    }),
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-bd63e688", module.exports)
+  }
+}
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(154)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(156)
+/* template */
+var __vue_template__ = __webpack_require__(157)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/reply/Reply.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1798249e", Component.options)
+  } else {
+    hotAPI.reload("data-v-1798249e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 154 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(155);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(1)("617f592a", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1798249e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reply.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1798249e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reply.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 155 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 156 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EditReply__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EditReply___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__EditReply__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: { EditReply: __WEBPACK_IMPORTED_MODULE_0__EditReply___default.a },
+    props: ['reply', 'questionSlug'],
+    data: function data() {
+        return {
+            editing: false,
+            replyContentBeforeCancel: ''
+        };
+    },
+    created: function created() {
+        // Listening events...
+        this.cancelEditReply();
+        this.editReplyDone();
+    },
+
+    methods: {
+        deleteReply: function deleteReply() {
+            axios.delete('/api/questions/' + this.questionSlug + '/replies/' + this.reply.id).then(function (res) {
+                EventBus.$emit('deleteReply', res.data.id);
+            }).catch(function (err) {
+                return console.log(err.response.data);
+            });
+        },
+        editReply: function editReply() {
+            this.replyContentBeforeCancel = this.reply.body;
+            this.editing = true;
+        },
+        cancelEditReply: function cancelEditReply() {
+            var _this = this;
+
+            EventBus.$on('cancelEditReply', function (replyId) {
+                // Thực hiện cancel đúng component fire event này!
+                if (_this.reply.id === replyId) {
+                    _this.reply.body = _this.replyContentBeforeCancel;
+                    _this.editing = false;
+                }
+            });
+        },
+        editReplyDone: function editReplyDone() {
+            var _this2 = this;
+
+            EventBus.$on('editReplyDone', function (replyId) {
+                // Thực hiện đóng đúng component fire event này!
+                if (_this2.reply.id === replyId) {
+                    _this2.editing = false;
+                }
+            });
+        }
+    },
+    computed: {
+        own: function own() {
+            return User.own(this.reply.user_id);
+        },
+        replyBody: function replyBody() {
+            return md.parse(this.reply.body);
+        }
+    }
+});
+
+/***/ }),
+/* 157 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "mt-3" },
+    [
+      _c(
+        "v-card",
+        [
+          _c("v-card-title", [
+            _c("div", { staticClass: "headline" }, [
+              _vm._v(_vm._s(_vm.reply.user))
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "ml-3 grey--text" }, [
+              _vm._v(_vm._s(_vm.reply.created_at))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.editing
+            ? _c("edit-reply", {
+                attrs: { reply: _vm.reply, questionSlug: _vm.questionSlug }
+              })
+            : _c("v-card-text", {
+                domProps: { innerHTML: _vm._s(_vm.replyBody) }
+              }),
+          _vm._v(" "),
+          _vm.own && !_vm.editing
+            ? _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { icon: "", small: "" },
+                      on: { click: _vm.editReply }
+                    },
+                    [
+                      _c("v-icon", { attrs: { color: "orange" } }, [
+                        _vm._v("edit")
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { icon: "", small: "" },
+                      on: { click: _vm.deleteReply }
+                    },
+                    [
+                      _c("v-icon", { attrs: { color: "red" } }, [
+                        _vm._v("delete")
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1798249e", module.exports)
+  }
+}
+
+/***/ }),
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(159)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(161)
+/* template */
+var __vue_template__ = __webpack_require__(162)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/reply/NewReply.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b1ac3db4", Component.options)
+  } else {
+    hotAPI.reload("data-v-b1ac3db4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(160);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(1)("63ad98b8", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b1ac3db4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NewReply.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b1ac3db4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NewReply.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 161 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['question'],
+    data: function data() {
+        return {
+            body: null
+        };
+    },
+
+    methods: {
+        submit: function submit() {
+            var _this = this;
+
+            axios.post('/api/questions/' + this.question.slug + '/replies', {
+                body: this.body
+            }).then(function (res) {
+                _this.body = '';
+                EventBus.$emit('addNewReply', res.data);
+                window.scrollTo(0, 0);
+            }).catch(function (err) {
+                return console.log(err.response.data);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "mt-4" },
+    [
+      _c("markdown-editor", {
+        model: {
+          value: _vm.body,
+          callback: function($$v) {
+            _vm.body = $$v
+          },
+          expression: "body"
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "v-btn",
+        { attrs: { color: "green", dark: "" }, on: { click: _vm.submit } },
+        [_vm._v("\n        Reply\n    ")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b1ac3db4", module.exports)
+  }
+}
+
+/***/ }),
+/* 163 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(164)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(166)
+/* template */
+var __vue_template__ = __webpack_require__(167)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/reply/EditReply.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6aad93b4", Component.options)
+  } else {
+    hotAPI.reload("data-v-6aad93b4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(165);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(1)("ed7d2638", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6aad93b4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditReply.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6aad93b4\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EditReply.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 165 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 166 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['reply', 'questionSlug'],
+    data: function data() {
+        return {
+            //editedReply: this.reply.body
+        };
+    },
+
+    methods: {
+        update: function update() {
+            var _this = this;
+
+            axios.put('/api/questions/' + this.questionSlug + '/replies/' + this.reply.id, {
+                body: this.reply.body
+            }).then(function (res) {
+                console.log(res.data);
+                _this.editDone();
+            }).catch(function (err) {
+                return console.log(err.response.data);
+            });
+        },
+        cancel: function cancel() {
+            EventBus.$emit('cancelEditReply', this.reply.id);
+        },
+        editDone: function editDone() {
+            EventBus.$emit('editReplyDone', this.reply.id);
+        }
+    }
+});
+
+/***/ }),
+/* 167 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("markdown-editor", {
+        model: {
+          value: _vm.reply.body,
+          callback: function($$v) {
+            _vm.$set(_vm.reply, "body", $$v)
+          },
+          expression: "reply.body"
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "v-card-actions",
+        [
+          _c(
+            "v-btn",
+            { attrs: { icon: "", small: "" }, on: { click: _vm.update } },
+            [_c("v-icon", { attrs: { color: "green" } }, [_vm._v("save")])],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { icon: "", small: "" }, on: { click: _vm.cancel } },
+            [_c("v-icon", { attrs: { color: "black" } }, [_vm._v("cancel")])],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6aad93b4", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

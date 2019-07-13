@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Reply as ReplyResource;
 
 class Question extends JsonResource
 {
@@ -15,6 +16,8 @@ class Question extends JsonResource
     public function toArray($request)
     {
         // return parent::toArray($request); // Laravel để sẵn 1 mẫu gợi ý
+
+        $replies = $this->replies()->latest()->get();
         return [
             'title' => $this->title,
             'slug' => $this->slug,
@@ -23,6 +26,8 @@ class Question extends JsonResource
             'created_at' => $this->created_at->diffForHumans(), // Vì $this->created_at trả về instance của Carbon
             'user' => $this->user->name,
             'user_id' => $this->user->id,
+            'replies' => ReplyResource::collection($replies),
+            'reply_count' => $replies->count(),
         ];
     }
 }

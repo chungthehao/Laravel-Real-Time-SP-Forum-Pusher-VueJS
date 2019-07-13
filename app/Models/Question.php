@@ -9,9 +9,17 @@ class Question extends Model
 {
     protected $fillable = ['title', 'slug', 'body', 'category_id', 'user_id'];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['replies'];
+
     protected static function boot()
     {
         parent::boot();
+        // Khi dùng eloquent lưu data, ko cần truyền slug, tự tạo cho mình từ title
         static::creating(function ($question) {
             $question->slug = str_slug($question->title);
         });
