@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Question;
 use App\Models\Reply;
+use App\Http\Resources\Notification as NotificationResource;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -58,5 +59,13 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function getNotifications()
+    {
+        return [
+            'read' => NotificationResource::collection($this->readNotifications),
+            'unread' => NotificationResource::collection($this->unreadNotifications),
+        ];
     }
 }

@@ -23,6 +23,9 @@ Route::apiResource('/questions.replies', 'ReplyController');
 Route::post('/like/{reply}', 'LikeController@likeIt');
 Route::delete('/like/{reply}', 'LikeController@unlikeIt');
 
+Route::post('/notifications', 'NotificationController@index');
+Route::post('/mark-as-read', 'NotificationController@markAsRead');
+
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
