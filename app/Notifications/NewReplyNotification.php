@@ -19,7 +19,7 @@ class NewReplyNotification extends Notification
      *
      * @return void
      */
-    public function __construct(\App\Models\Reply $reply)
+    public function __construct(Reply $reply)
     {
         $this->reply = $reply;
     }

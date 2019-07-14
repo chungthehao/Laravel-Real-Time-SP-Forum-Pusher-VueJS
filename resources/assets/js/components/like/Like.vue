@@ -15,6 +15,15 @@
                 count: this.reply.like_count
             };
         },
+        created() {
+            Echo.channel('like-channel')
+                .listen('LikeEvent', e => {
+                    // Nếu reply này là cái reply mà chỗ khác like (đc push tới mình)
+                    if (Number(e.replyId) === this.reply.id) {
+                        Number(e.type) === 1 ? this.count++ : this.count--;
+                    }
+                });
+        },
         methods: {
             likeReply() {
                 if (User.loggedIn()) {
