@@ -22,6 +22,7 @@
             <v-btn
                     color="green"
                     type="submit"
+                    :disabled="disabled"
             >Ask</v-btn>
         </v-form>
     </v-container>
@@ -39,6 +40,11 @@ export default {
     created() {
         axios.get('/api/categories')
             .then(res => this.categories = res.data);
+    },
+    computed: {
+        disabled() {
+            return ! (this.form.title && this.form.category_id && this.form.body);
+        }
     },
     methods: {
         create() {

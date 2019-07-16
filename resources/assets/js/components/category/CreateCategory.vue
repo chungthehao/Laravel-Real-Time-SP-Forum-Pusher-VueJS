@@ -9,10 +9,12 @@
             <v-btn
                 type="submit"
                 color="teal"
+                :disabled="!form.name"
                 v-if="!editSlug">Create</v-btn>
             <v-btn
                 type="submit"
                 color="orange"
+                :disabled="!form.name"
                 v-else>Update</v-btn>
         </v-form>
 
@@ -85,6 +87,7 @@
                     .then(res => {
                         this.categories.unshift(res.data);
                         this.form.name = '';
+                        this.editSlug = '';
                     })
                     .catch(err => console.log(err.response.data));
             },
