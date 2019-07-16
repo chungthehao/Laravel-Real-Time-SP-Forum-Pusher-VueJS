@@ -14,7 +14,18 @@ class Token {
     }
 
     decode(payload) {
-        return JSON.parse(atob(payload)) // atob giải base64
+        if (this.isBase64(payload)) {
+            return JSON.parse(atob(payload)) // atob giải base64
+        }
+        return false;
+    }
+
+    isBase64(str) {
+        try {
+            return btoa(atob(str)).slice(0, -1) === str;
+        } catch (err) {
+            return false;
+        }
     }
 }
 
