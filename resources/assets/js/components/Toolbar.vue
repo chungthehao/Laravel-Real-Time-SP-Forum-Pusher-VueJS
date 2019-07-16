@@ -1,13 +1,15 @@
 <template>
-    <v-toolbar>
+    <v-toolbar color="indigo lighten-1" dark>
         <!--<v-toolbar-side-icon></v-toolbar-side-icon>-->
-        <v-toolbar-title>Henry Chung</v-toolbar-title>
+        <v-toolbar-title>
+            <router-link class="white--text" to="/">Henry Chung</router-link>
+        </v-toolbar-title>
 
         <v-spacer></v-spacer>
 
         <app-notification v-if="loggedIn"></app-notification>
         <div class="hidden-sm-and-down">
-            <router-link v-for="(item, index) in items"
+            <router-link class="white--text" v-for="(item, index) in items"
                          :key="index"
                          :to="item.to"
                          v-if="item.show">

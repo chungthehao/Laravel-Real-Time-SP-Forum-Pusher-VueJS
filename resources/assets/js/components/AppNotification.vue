@@ -78,7 +78,7 @@
         },
         computed: {
             color() {
-                return this.unreadCount ? 'red' : 'primary';
+                return this.unreadCount ? 'red' : 'red lighten-3';
             }
         }
     }
