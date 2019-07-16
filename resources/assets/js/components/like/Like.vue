@@ -18,7 +18,8 @@
         created() {
             Echo.channel('like-channel')
                 .listen('LikeEvent', e => {
-                    // Nếu reply này là cái reply mà chỗ khác like (đc push tới mình)
+                    // - Nếu reply này là cái reply mà chỗ khác like (đc push tới mình)
+                    // - Mỗi Reply đều có Like component này nên mình phải biết đc là component nào!
                     if (Number(e.replyId) === this.reply.id) {
                         Number(e.type) === 1 ? this.count++ : this.count--;
                     }

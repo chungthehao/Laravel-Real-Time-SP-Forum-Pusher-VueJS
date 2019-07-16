@@ -84,6 +84,7 @@ export default {
             Echo.channel('delete-reply-channel')
                 .listen('DeleteReplyEvent', e => {
                     this.question.replies = this.question.replies.filter(reply => reply.id !== Number(e.replyId));
+                    this.question.reply_count--;
                 });
         }
     },

@@ -91323,7 +91323,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -91446,6 +91446,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this6.question.replies = _this6.question.replies.filter(function (reply) {
                     return reply.id !== Number(e.replyId);
                 });
+                _this6.question.reply_count--;
             });
         }
     }
@@ -92540,7 +92541,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
 
         Echo.channel('like-channel').listen('LikeEvent', function (e) {
-            // Nếu reply này là cái reply mà chỗ khác like (đc push tới mình)
+            // - Nếu reply này là cái reply mà chỗ khác like (đc push tới mình)
+            // - Mỗi Reply đều có Like component này nên mình phải biết đc là component nào!
             if (Number(e.replyId) === _this.reply.id) {
                 Number(e.type) === 1 ? _this.count++ : _this.count--;
             }
