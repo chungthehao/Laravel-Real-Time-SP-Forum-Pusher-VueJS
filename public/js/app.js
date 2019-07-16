@@ -86434,7 +86434,11 @@ var User = function () {
         value: function hasToken() {
             var storedToken = __WEBPACK_IMPORTED_MODULE_1__AppStorage__["a" /* default */].getToken();
             if (storedToken) {
-                return __WEBPACK_IMPORTED_MODULE_0__Token__["a" /* default */].isValid(storedToken);
+                if (!__WEBPACK_IMPORTED_MODULE_0__Token__["a" /* default */].isValid(storedToken)) {
+                    this.logout(); // token ko hợp lệ, thì xóa token ở localStorage
+                    return false;
+                }
+                return true;
             }
             return false;
         }

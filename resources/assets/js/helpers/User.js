@@ -20,7 +20,11 @@ class User {
     hasToken() {
         const storedToken = AppStorage.getToken();
         if (storedToken) {
-            return Token.isValid(storedToken);
+            if ( ! Token.isValid(storedToken)) {
+                this.logout(); // token ko hợp lệ, thì xóa token ở localStorage
+                return false;
+            }
+            return true;
         }
         return false;
     }
