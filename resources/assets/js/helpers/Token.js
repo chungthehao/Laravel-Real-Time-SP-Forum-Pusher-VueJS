@@ -22,7 +22,7 @@ class Token {
 
     isBase64(str) {
         try {
-            return btoa(atob(str)).slice(0, -1) === str;
+            return btoa(atob(str)).slice(0, -1) === str; // Remove '=' (the last character)
         } catch (err) {
             return false;
         }

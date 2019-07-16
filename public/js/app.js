@@ -86526,7 +86526,7 @@ var Token = function () {
         key: 'isBase64',
         value: function isBase64(str) {
             try {
-                return btoa(atob(str)).slice(0, -1) === str;
+                return btoa(atob(str)).slice(0, -1) === str; // Remove '=' (the last character)
             } catch (err) {
                 return false;
             }
@@ -91323,7 +91323,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -91342,6 +91342,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__reply_Replies___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__reply_Replies__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__reply_NewReply__ = __webpack_require__(156);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__reply_NewReply___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__reply_NewReply__);
+//
+//
+//
+//
 //
 //
 //
@@ -91388,6 +91392,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.getQuestion();
     },
 
+    computed: {
+        isLoggedIn: function isLoggedIn() {
+            return User.loggedIn();
+        }
+    },
     methods: {
         editQuestion: function editQuestion() {
             var _this = this;
@@ -91417,6 +91426,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             EventBus.$on('addNewReply', function (newReply) {
                 _this4.question.replies.unshift(newReply);
+                _this4.question.reply_count++;
             });
         },
         onDeleteReply: function onDeleteReply() {
@@ -92928,7 +92938,18 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _c("new-reply", { attrs: { question: _vm.question } })
+              _vm.isLoggedIn
+                ? _c("new-reply", { attrs: { question: _vm.question } })
+                : _c(
+                    "div",
+                    { staticClass: "my-4" },
+                    [
+                      _c("router-link", { attrs: { to: "/login" } }, [
+                        _vm._v("Please login to reply.")
+                      ])
+                    ],
+                    1
+                  )
             ],
             1
           )

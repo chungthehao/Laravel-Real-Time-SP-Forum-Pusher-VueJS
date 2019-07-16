@@ -14,7 +14,11 @@
                 :questionSlug="question.slug"></replies>
 
             <new-reply
+                v-if="isLoggedIn"
                 :question="question"></new-reply>
+            <div v-else class="my-4">
+                <router-link to="/login">Please login to reply.</router-link>
+            </div>
         </v-container>
     </div>
 </template>
@@ -43,6 +47,11 @@ export default {
 
         this.getQuestion();
     },
+    computed: {
+        isLoggedIn() {
+            return User.loggedIn();
+        }
+    },
     methods: {
         editQuestion() {
             EventBus.$on('editingQuestion', () => {
@@ -62,6 +71,7 @@ export default {
         onAddNewReply() {
             EventBus.$on('addNewReply', (newReply) => {
                 this.question.replies.unshift(newReply);
+                this.question.reply_count++;
             });
         },
         onDeleteReply() {
@@ -76,7 +86,7 @@ export default {
                     this.question.replies = this.question.replies.filter(reply => reply.id !== Number(e.replyId));
                 });
         }
-    }
+    },
 }
 </script>
 
