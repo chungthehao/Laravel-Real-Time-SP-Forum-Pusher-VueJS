@@ -1,5 +1,11 @@
 <template>
     <v-container>
+        <v-alert v-if="errors"
+                :value="true"
+                type="error">
+            {{errors.name[0]}}
+        </v-alert>
+
         <v-form @submit.prevent="submit">
             <v-text-field
                 label="Category Name"
@@ -61,7 +67,8 @@
                     name: null
                 },
                 categories: [],
-                editSlug: null
+                editSlug: null,
+                errors: null
             };
         },
         created() {
@@ -79,8 +86,12 @@
                     .then(res => {
                         this.categories.unshift(res.data);
                         this.form.name = '';
+                        this.errors = null;
                     })
-                    .catch(err => console.log(err.response.data));
+                    .catch(err => {
+                        console.log(err.response.data);
+                        this.errors = err.response.data.errors;
+                    });
             },
             update() {
                 axios.patch(`/api/categories/${this.editSlug}`, this.form)
@@ -88,8 +99,12 @@
                         this.categories.unshift(res.data);
                         this.form.name = '';
                         this.editSlug = '';
+                        this.errors = null;
                     })
-                    .catch(err => console.log(err.response.data));
+                    .catch(err => {
+                        console.log(err.response.data);
+                        this.errors = err.response.data.errors;
+                    });
             },
             destroy(slug, index) {
                 axios.delete(`/api/categories/${slug}`)

@@ -93076,7 +93076,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -93117,25 +93117,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             categories: [],
             form: { title: null, category_id: null, body: null },
-            error: {}
+            errors: null
         };
     },
     created: function created() {
         var _this = this;
 
         axios.get('/api/categories').then(function (res) {
-            return _this.categories = res.data;
+            _this.categories = res.data;
         });
     },
 
     computed: {
         disabled: function disabled() {
+            //return false;
             return !(this.form.title && this.form.category_id && this.form.body);
         }
     },
@@ -93144,9 +93153,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             axios.post('/api/questions', this.form).then(function (res) {
-                return _this2.$router.push(res.data.path);
-            }).catch(function (error) {
-                return _this2.error = error.response.data.error;
+                _this2.$router.push(res.data.path);
+                _this2.errors = null;
+            }).catch(function (errors) {
+                return _this2.errors = errors.response.data.errors;
             });
         }
     }
@@ -93163,6 +93173,22 @@ var render = function() {
   return _c(
     "v-container",
     [
+      _vm.errors
+        ? _c("v-alert", { attrs: { value: true, type: "error" } }, [
+            _vm.errors.title
+              ? _c("div", [_vm._v(_vm._s(_vm.errors.title[0]))])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.errors.category_id
+              ? _c("div", [_vm._v(_vm._s(_vm.errors.category_id[0]))])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.errors.body
+              ? _c("div", [_vm._v(_vm._s(_vm.errors.body[0]))])
+              : _vm._e()
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "v-form",
         {
@@ -93322,7 +93348,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -93388,6 +93414,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -93396,7 +93428,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: null
             },
             categories: [],
-            editSlug: null
+            editSlug: null,
+            errors: null
         };
     },
     created: function created() {
@@ -93420,8 +93453,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/api/categories', this.form).then(function (res) {
                 _this2.categories.unshift(res.data);
                 _this2.form.name = '';
+                _this2.errors = null;
             }).catch(function (err) {
-                return console.log(err.response.data);
+                console.log(err.response.data);
+                _this2.errors = err.response.data.errors;
             });
         },
         update: function update() {
@@ -93431,8 +93466,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this3.categories.unshift(res.data);
                 _this3.form.name = '';
                 _this3.editSlug = '';
+                _this3.errors = null;
             }).catch(function (err) {
-                return console.log(err.response.data);
+                console.log(err.response.data);
+                _this3.errors = err.response.data.errors;
             });
         },
         destroy: function destroy(slug, index) {
@@ -93463,6 +93500,12 @@ var render = function() {
   return _c(
     "v-container",
     [
+      _vm.errors
+        ? _c("v-alert", { attrs: { value: true, type: "error" } }, [
+            _vm._v("\n        " + _vm._s(_vm.errors.name[0]) + "\n    ")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "v-form",
         {
