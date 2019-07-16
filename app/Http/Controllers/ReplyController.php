@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DeleteReplyEvent;
 use App\Models\Question;
 use App\Models\Reply;
 use App\Http\Resources\Reply as ReplyResource;
@@ -85,6 +86,10 @@ class ReplyController extends Controller
     {
         try {
             $reply->delete();
+
+            // Broadcast để việc delete reply ở 1 trang sẽ real time đến tất cả nơi khác cùng đang ở trang đó
+            broadcast(new DeleteReplyEvent($reply->id))->toOthers();
+
             return response()->json($reply, Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json([

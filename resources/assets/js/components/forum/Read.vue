@@ -38,6 +38,8 @@ export default {
         this.cancelEditQuestion();
         this.onAddNewReply();
         this.onDeleteReply();
+        // Real time from others
+        this.realTimeDeleteReplyFromOthers();
 
         this.getQuestion();
     },
@@ -67,6 +69,12 @@ export default {
                 this.question.replies = this.question.replies.filter(reply => reply.id !== replyId);
                 this.question.reply_count--;
             });
+        },
+        realTimeDeleteReplyFromOthers() {
+            Echo.channel('delete-reply-channel')
+                .listen('DeleteReplyEvent', e => {
+                    this.question.replies = this.question.replies.filter(reply => reply.id !== Number(e.replyId));
+                });
         }
     }
 }

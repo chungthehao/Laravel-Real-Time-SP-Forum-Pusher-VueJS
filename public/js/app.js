@@ -27596,9 +27596,9 @@ window.Popper = __webpack_require__(9).default;
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(10);
+    window.$ = window.jQuery = __webpack_require__(10);
 
-  __webpack_require__(26);
+    __webpack_require__(26);
 } catch (e) {}
 
 /**
@@ -27623,9 +27623,9 @@ window.axios.defaults.headers.common['Authorization'] = jwtToken;
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 /**
@@ -27639,10 +27639,15 @@ if (token) {
 window.Pusher = __webpack_require__(177);
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo__["a" /* default */]({
-  broadcaster: 'pusher',
-  key: 'cbd578a13d67bc19e960',
-  cluster: 'ap1',
-  encrypted: true
+    broadcaster: 'pusher',
+    key: 'cbd578a13d67bc19e960',
+    cluster: 'ap1',
+    encrypted: true,
+    auth: {
+        headers: {
+            Authorization: jwtToken
+        }
+    }
 });
 
 /***/ }),
@@ -86948,7 +86953,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -86996,6 +87001,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         if (User.loggedIn()) {
             this.getNotifications();
+            this.realTimeNotification();
         }
     },
 
@@ -87016,6 +87022,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.unread.splice(notification, 1);
                 _this2.read.push(notification);
                 _this2.unreadCount--;
+            });
+        },
+        realTimeNotification: function realTimeNotification() {
+            var _this3 = this;
+
+            Echo.private('App.User.' + User.id()).notification(function (_ref) {
+                var reply = _ref.reply,
+                    replyBy = _ref.replyBy,
+                    questionTitle = _ref.questionTitle,
+                    questionPath = _ref.questionPath;
+
+                _this3.unread.unshift({
+                    id: reply.id,
+                    replyBy: replyBy,
+                    question: questionTitle,
+                    path: questionPath
+                });
+                _this3.unreadCount++;
             });
         }
     },
@@ -87064,7 +87088,7 @@ var render = function() {
                   [
                     _c(
                       "router-link",
-                      { attrs: { to: item.path } },
+                      { attrs: { to: "/" + item.path } },
                       [
                         _c(
                           "v-list-tile-title",
@@ -91276,7 +91300,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -91335,6 +91359,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.cancelEditQuestion();
         this.onAddNewReply();
         this.onDeleteReply();
+        // Real time from others
+        this.realTimeDeleteReplyFromOthers();
 
         this.getQuestion();
     },
@@ -91378,6 +91404,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return reply.id !== replyId;
                 });
                 _this5.question.reply_count--;
+            });
+        },
+        realTimeDeleteReplyFromOthers: function realTimeDeleteReplyFromOthers() {
+            var _this6 = this;
+
+            Echo.channel('delete-reply-channel').listen('DeleteReplyEvent', function (e) {
+                _this6.question.replies = _this6.question.replies.filter(function (reply) {
+                    return reply.id !== Number(e.replyId);
+                });
             });
         }
     }
@@ -91964,7 +91999,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -91990,8 +92025,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { Reply: __WEBPACK_IMPORTED_MODULE_0__Reply___default.a },
-    props: ['replies', 'questionSlug']
+    props: ['replies', 'questionSlug'],
+    created: function created() {
+        // Listening events...
+        this.listenNoti();
+    },
 
+    methods: {
+        listenNoti: function listenNoti() {
+            // - Muốn đoạn code private này chạy tốt, phải cho pusher laravel biết
+            // cách để authenticate (qua JWT). Config trong file bootstrap.js
+            Echo.private('App.User.' + User.id()).notification(function (notification) {
+                EventBus.$emit('addNewReply', notification.reply);
+                window.scrollTo(0, 0);
+            });
+        }
+    }
 });
 
 /***/ }),

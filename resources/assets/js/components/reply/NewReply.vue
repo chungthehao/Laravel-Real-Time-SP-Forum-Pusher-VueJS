@@ -24,7 +24,7 @@
                     })
                     .then(res => {
                         this.body = '';
-                        EventBus.$emit('addNewReply', res.data)
+                        EventBus.$emit('addNewReply', res.data);
                         window.scrollTo(0, 0);
                     })
                     .catch(err => console.log(err.response.data));

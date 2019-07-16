@@ -7,7 +7,7 @@
             <v-list>
                 <v-list-tile v-for="(item, index) in unread"
                              :key="item.id">
-                    <router-link :to="item.path">
+                    <router-link :to="`/${item.path}`">
                         <v-list-tile-title @click="onRead(item)">{{ item.question }}</v-list-tile-title>
                     </router-link>
                 </v-list-tile>
@@ -35,6 +35,7 @@
         created() {
             if (User.loggedIn()) {
                 this.getNotifications();
+                this.realTimeNotification();
             }
         },
         methods: {
@@ -55,6 +56,18 @@
                         this.unread.splice(notification, 1);
                         this.read.push(notification);
                         this.unreadCount--;
+                    });
+            },
+            realTimeNotification() {
+                Echo.private('App.User.' + User.id())
+                    .notification(({reply, replyBy, questionTitle, questionPath}) => {
+                        this.unread.unshift({
+                            id: reply.id,
+                            replyBy,
+                            question: questionTitle,
+                            path: questionPath
+                        });
+                        this.unreadCount++;
                     });
             }
         },
