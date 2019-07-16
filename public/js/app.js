@@ -27537,7 +27537,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_simplemde_dist_simplemde_min_css__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_simplemde_dist_simplemde_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_simplemde_dist_simplemde_min_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__helpers_User__ = __webpack_require__(69);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__router_router__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers_Exception__ = __webpack_require__(178);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__router_router__ = __webpack_require__(97);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -27559,7 +27560,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuet
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_simplemde___default.a);
 
 
+
 window.User = __WEBPACK_IMPORTED_MODULE_5__helpers_User__["a" /* default */];
+window.Exception = __WEBPACK_IMPORTED_MODULE_6__helpers_Exception__["a" /* default */];
 window.EventBus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a(); // Tạo 1 vue instance chỉ để phục vụ cho việc EventBus
 window.md = __WEBPACK_IMPORTED_MODULE_3_marked___default.a;
 console.log(__WEBPACK_IMPORTED_MODULE_5__helpers_User__["a" /* default */].id());
@@ -27575,7 +27578,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('app-home', __webpack_requ
 
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
   el: '#app',
-  router: __WEBPACK_IMPORTED_MODULE_6__router_router__["a" /* default */]
+  router: __WEBPACK_IMPORTED_MODULE_7__router_router__["a" /* default */]
 });
 
 /***/ }),
@@ -86953,7 +86956,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -86964,6 +86967,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_Exception__ = __webpack_require__(178);
 //
 //
 //
@@ -86989,6 +86993,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -87012,7 +87018,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/api/notifications').then(function (res) {
                 _this.read = res.data.read, _this.unread = res.data.unread, _this.unreadCount = res.data.unread.length;
             }).catch(function (err) {
-                return console.log(err.response.data);
+                console.log(err.response.data);
+                __WEBPACK_IMPORTED_MODULE_0__helpers_Exception__["a" /* default */].handle(err); // ở app.js -> window.Exception = Exception;
             });
         },
         onRead: function onRead(notification) {
@@ -103677,6 +103684,44 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
+
+/***/ }),
+/* 178 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__User__ = __webpack_require__(69);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+var Exception = function () {
+    function Exception() {
+        _classCallCheck(this, Exception);
+    }
+
+    _createClass(Exception, [{
+        key: 'handle',
+        value: function handle(error) {
+            // Xem thêm ở app/Exceptions/Handler@render
+            this.isExpired(error.response.data.error);
+        }
+    }, {
+        key: 'isExpired',
+        value: function isExpired(errMsg) {
+            // Xem thêm ở app/Exceptions/Handler@render
+            if (errMsg === 'Token is expired.') {
+                __WEBPACK_IMPORTED_MODULE_0__User__["a" /* default */].logout();
+            }
+        }
+    }]);
+
+    return Exception;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Exception = new Exception());
 
 /***/ })
 /******/ ]);

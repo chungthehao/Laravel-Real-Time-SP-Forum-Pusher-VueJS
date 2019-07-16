@@ -24,6 +24,8 @@
 </template>
 
 <script>
+    import Exception from "../helpers/Exception";
+
     export default {
         data() {
             return {
@@ -47,7 +49,10 @@
                         this.unread = res.data.unread,
                         this.unreadCount = res.data.unread.length
                     })
-                    .catch(err => console.log(err.response.data));
+                    .catch(err => {
+                        console.log(err.response.data);
+                        Exception.handle(err); // ở app.js -> window.Exception = Exception;
+                    });
             },
             onRead(notification) {
                 axios

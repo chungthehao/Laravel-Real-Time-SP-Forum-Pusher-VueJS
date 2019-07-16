@@ -19,7 +19,9 @@ Vue.use(Vuetify);
 Vue.use(VueSimplemde);
 
 import User from './helpers/User';
+import Exception from './helpers/Exception';
 window.User = User;
+window.Exception = Exception;
 window.EventBus = new Vue(); // Tạo 1 vue instance chỉ để phục vụ cho việc EventBus
 window.md = md;
 console.log(User.id());

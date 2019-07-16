@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt', ['except' => []]);
+    }
+
     public function index()
     {
         return auth()->user()->getNotifications();
