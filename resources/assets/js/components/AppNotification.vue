@@ -73,6 +73,10 @@
                             path: questionPath
                         });
                         this.unreadCount++;
+
+                        // Make sound
+                        const audio = new Audio('/mp3/unconvinced.mp3');
+                        audio.play();
                     });
             }
         },
